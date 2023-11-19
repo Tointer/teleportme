@@ -10,6 +10,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "hardhat": "^2.19.1"
+    "@chainlink/contracts-ccip": "^0.7.6",
+    "@nomicfoundation/hardhat-toolbox-viem": "^2.0.0",
+    "hardhat": "^2.19.1",
+    "solmate": "^6.2.0"
   }
 }
