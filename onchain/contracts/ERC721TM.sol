@@ -8,7 +8,7 @@ contract ERC721TM is ERC721, AccessControl {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     string public baseURI;
 
-    constructor(address owner, address minter, string symbol, string name, string _baseURI) ERC721(name, symbol) {
+    constructor(address owner, address minter, string memory symbol, string memory name, string memory _baseURI) ERC721(name, symbol) {
         _grantRole(DEFAULT_ADMIN_ROLE, owner);
         _grantRole(MINTER_ROLE, minter);
         baseURI = _baseURI;
