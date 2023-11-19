@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0
 
-pragma solidity 0.8.17;
+pragma solidity ^0.8.20;
 
 import "../interfaces/IBridgeMessageReceiver.sol";
 import "../interfaces/IPolygonZkEVMBridge.sol";
@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /**
  * ZkEVMNFTBridge is an example contract to use the message layer of the PolygonZkEVMBridge to bridge NFTs
  */
-contract LxLyReceiver is IBridgeMessageReceiver, Ownable {
+abstract contract LxLyReceiver is IBridgeMessageReceiver, Ownable {
     // Global Exit Root address
     IPolygonZkEVMBridge public immutable polygonZkEVMBridge;
 
