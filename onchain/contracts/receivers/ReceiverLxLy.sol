@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /**
  * ZkEVMNFTBridge is an example contract to use the message layer of the PolygonZkEVMBridge to bridge NFTs
  */
-abstract contract LxLyReceiver is IBridgeMessageReceiver, Ownable {
+abstract contract ReceiverLxLy is IBridgeMessageReceiver, Ownable {
     // Global Exit Root address
     IPolygonZkEVMBridge public immutable polygonZkEVMBridge;
 
