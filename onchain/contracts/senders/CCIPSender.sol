@@ -3,6 +3,9 @@ pragma solidity 0.8.20;
 
 import {IRouterClient} from "@chainlink/contracts-ccip/src/v0.8/ccip/interfaces/IRouterClient.sol";
 import {Client} from "@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.sol";
+import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract BasicMessageSender {
     struct Payload {
@@ -10,6 +13,10 @@ contract BasicMessageSender {
       address tokenContract;
       uint256 amount;
       uint256[] tokenIds;
+    }
+
+    enum ER{
+        C20, C721, C1155
     }
 
     address immutable i_router;
@@ -24,6 +31,7 @@ contract BasicMessageSender {
 
     function send(
         uint64 destinationChainSelector,
+        ER tokenType,
         address destinationCollection,
         address collection,
         uint amount,
@@ -42,7 +50,10 @@ contract BasicMessageSender {
             feeToken: address(0)
         });
 
-        //get nft here
+        //deposit token(s)
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            depositToken(tokenType, collection, amount, tokenIds[i]);
+        }
 
         uint256 fee = IRouterClient(i_router).getFee(
             destinationChainSelector,
@@ -57,5 +68,15 @@ contract BasicMessageSender {
         );
 
         emit MessageSent(messageId);
+    }
+
+    function depositToken(ER tokenType, address collection, uint amount, uint tokenId) private {
+        if(tokenType == ER.C20){
+            IERC20(collection).transferFrom(msg.sender, address(this), amount);
+        } else if(tokenType == ER.C721){
+            IERC721(collection).transferFrom(msg.sender, address(this), tokenId);
+        } else if(tokenType == ER.C1155){
+            IERC1155(collection).safeTransferFrom(msg.sender, address(this), tokenId, amount, "");
+        }
     }
 }
