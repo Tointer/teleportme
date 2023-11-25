@@ -15,7 +15,7 @@ model Contract {
   title          String
   address        String?
   published      Boolean @default(false)
-  fromProject    User?   @relation(fields: [projectId], references: [id])
+  fromProject    Project?   @relation(fields: [projectId], references: [id])
   projectId      String?
 }
 
