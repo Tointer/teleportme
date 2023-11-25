@@ -10,21 +10,21 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model Post {
-  id        String     @default(cuid()) @id
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  String?
+model Contract {
+  id             String     @default(cuid()) @id
+  title          String
+  address        String?
+  published      Boolean @default(false)
+  fromProject    User?   @relation(fields: [projectId], references: [id])
+  projectId      String?
 }
 
-model User {
+model Project {
   id            String       @default(cuid()) @id
   name          String?
-  email         String?   @unique
+  authorAddress String?   
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-  posts         Post[]
-  @@map(name: "users")
+  contracts     Contract[]
+  @@map(name: "Projects")
 }
