@@ -1,8 +1,13 @@
+`use client`
+
 import type { Metadata } from 'next'
 import { Inter as FontSans } from "next/font/google"
 import './globals.css'
 import { cn } from "../lib/utils"
 import { ThemeProvider } from "../components/theme-provider"
+import { WagmiConfig, createConfig, mainnet } from 'wagmi'
+import { publicClient } from '@/lib/viem'
+import { Providers } from '@/components/web3providers'
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -27,14 +32,16 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-        >
-            {children}
-        </ThemeProvider>
+        <Providers >
+          <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+          >
+              {children}
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   )
